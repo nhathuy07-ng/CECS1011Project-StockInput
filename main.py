@@ -10,7 +10,9 @@ from escpos.constants import QR_ECLEVEL_M, QR_MODEL_2
 from ttkbootstrap.widgets.scrolled import ScrolledFrame
 from ttkbootstrap.widgets import ToastNotification
 
-URL = "http://127.0.0.1:8000/{}"
+dotenv.load_dotenv(".env")
+
+URL = os.getenv("HOST") +"/{}"
 
 
 loginWindow = None
