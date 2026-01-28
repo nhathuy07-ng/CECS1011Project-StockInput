@@ -9,7 +9,7 @@ import requests as r
 from escpos.constants import QR_ECLEVEL_M, QR_MODEL_2
 from ttkbootstrap.widgets.scrolled import ScrolledFrame
 from ttkbootstrap.widgets import ToastNotification
-
+import qrcode
 dotenv.load_dotenv(".env")
 
 URL = os.getenv("HOST") +"/{}"
@@ -150,6 +150,17 @@ def print_batch(batchID):
         p.cut()
     except:
         msgbox.showerror(parent=tk, message="Printer not connected. New batch is still uploaded.")
+        qr = qrcode.QRCode(
+            version=2,  # Version 2 (25x25 matrix) [12]
+            error_correction=qrcode.ERROR_CORRECT_M,  # Low error correction for maximum capacity
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(batchID)
+        qr.make(fit=False)
+        img = qr.make_image(fill_color="black", back_color="white")
+        img.show()
+        img.save(f"{batchID}.png")
 
 
 def add_new_batch():
